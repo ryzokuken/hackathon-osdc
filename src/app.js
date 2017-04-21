@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootswatch/lumen/bootstrap.css'
 import './app.css'
 
 import App from 'containers/App/App'
