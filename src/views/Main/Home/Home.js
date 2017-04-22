@@ -1,5 +1,7 @@
 import React, { PropTypes as T } from 'react'
 import {Button, Jumbotron, Grid, Row, Col} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
+import axios from 'axios'
 import AuthService from 'utils/AuthService'
 import styles from './styles.module.css'
 
@@ -16,7 +18,7 @@ export class Home extends React.Component {
     super(props, context)
     this.state = {
       profile: props.auth.getProfile(),
-      domains: {}
+      domains: []
     }
     props.auth.on('profile_updated', (newProfile) => {
       this.setState({profile: newProfile})
@@ -28,11 +30,17 @@ export class Home extends React.Component {
     this.context.router.push('/login');
   }
 
+  componentDidMount() {
+    axios.get('http://localhost:4000/api/domains')
+      .then(res => {
+        this.setState({ domains: res.data })
+      })
+  }
+
   render(){
     const { profile } = this.state
     return (
       <div className={styles.root}>
-        {JSON.stringify(this.state.domains)}
         <Grid>
           <Jumbotron>
             <h1>Welcome to the Library of Alexandria!</h1>
@@ -43,36 +51,16 @@ export class Home extends React.Component {
             </h3>
             <Grid>
               <Row className="show-grid">
-                <Col xs={12} sm={6} md={4} lg={3}>
-                  <div className={styles.cardDomain}>
-                    Technology
-                  </div>
-                </Col>
-                <Col xs={12} sm={6} md={4} lg={3}>
-                  <div className={styles.cardDomain}>
-                    Medicine
-                  </div>
-                </Col>
-                <Col xs={12} sm={6} md={4} lg={3}>
-                  <div className={styles.cardDomain}>
-                    Education
-                  </div>
-                </Col>
-                <Col xs={12} sm={6} md={4} lg={3}>
-                  <div className={styles.cardDomain}>
-                    Science
-                  </div>
-                </Col>
-                <Col xs={12} sm={6} md={4} lg={3}>
-                  <div className={styles.cardDomain}>
-                    Law and Order
-                  </div>
-                </Col>
-                <Col xs={12} sm={6} md={4} lg={3}>
-                  <div className={styles.cardDomain}>
-                    Culture
-                  </div>
-                </Col>
+                {this.state.domains.map && this.state.domains.map(domain => (
+                  <LinkContainer to={`/section/${domain._id}`}>
+                    <Col xs={12} sm={6} md={4} lg={3}>
+                      <div className={styles.cardDomain}>
+                        <img src={domain.img} alt=""/>
+                        <h4>{domain.title}</h4>
+                      </div>
+                    </Col>
+                  </LinkContainer>
+                ))}
               </Row>
             </Grid>
           </div>
