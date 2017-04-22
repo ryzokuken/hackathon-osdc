@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import {Link} from 'react-router';
 
 export default class NavbarComponent extends React.Component {
   constructor(props, context) {
@@ -18,7 +19,7 @@ export default class NavbarComponent extends React.Component {
       <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">React-Bootstrap</a>
+            <Link to="/home">Alexandria</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -36,14 +37,20 @@ export default class NavbarComponent extends React.Component {
           </Nav>
           <Nav pullRight>
             <NavItem eventKey={1} href="#">Link Right</NavItem>
-            <NavDropdown eventKey={2} title={this.state.profile.nickname} id="basic-nav-dropdown">
-              <MenuItem eventKey={2.1}>Profile</MenuItem>
-              <MenuItem eventKey={2.2}>Settings</MenuItem>
-              <MenuItem divider />
-              <LinkContainer to="/logout">
-                <MenuItem eventKey={2.3}>Logout</MenuItem>
+            {
+              !!this.state.profile.nickname ?
+              <NavDropdown eventKey={2} title={this.state.profile.nickname} id="basic-nav-dropdown">
+                <MenuItem eventKey={2.1}>Profile</MenuItem>
+                <MenuItem eventKey={2.2}>Settings</MenuItem>
+                <MenuItem divider />
+                <LinkContainer to="/logout">
+                  <MenuItem eventKey={2.3}>Logout</MenuItem>
+                </LinkContainer>
+              </NavDropdown> :
+              <LinkContainer to="/login">
+                <NavItem eventKey={2}>Login</NavItem>
               </LinkContainer>
-            </NavDropdown>
+            }
           </Nav>
         </Navbar.Collapse>
       </Navbar>

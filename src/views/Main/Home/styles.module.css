@@ -1,3 +1,10 @@
 .root{
   text-align: center;
 }
+.textDomains {
+  text-align: left;
+  border-bottom: 1px solid gainsboro;
+}
+.cardDomain {
+  border: 1px solid green;
+}
